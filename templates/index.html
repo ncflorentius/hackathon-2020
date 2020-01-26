@@ -46,7 +46,35 @@
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -34.397, lng: 150.644 },
-        zoom: 8
+        zoom: 8,
+        disableDefaultUI: true,
+        styles: [
+          {
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#933933"
+              }
+            ]
+          },
+          {
+            "elementType": "labels.text.stroke",
+            "stylers": [
+              {
+                "color": "#f2f2f2"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry.fill",
+            "stylers": [
+              {
+                "color": "#4f9de6"
+              }
+            ]
+          },
+        ]
       });
       infoWindow = new google.maps.InfoWindow;
 
