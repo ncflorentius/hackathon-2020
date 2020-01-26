@@ -5,6 +5,16 @@
   <title>Geolocation</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
+
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+  crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <style>
     /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -23,12 +33,14 @@
 </head>
 
 <body>
+
   <div id="map"></div>
   <script>
     // Note: This example requires that you consent to location sharing when
     // prompted by your browser. If you see the error "The Geolocation service
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
+
     var map, infoWindow;
 
     function initMap() {
@@ -111,9 +123,6 @@
           title: place.title,
           // icon: image
         });
-
-
-            //  jQuery
            var popup=$('<div/>', {
             'id':'This is '+name,
             'text':content
@@ -141,6 +150,7 @@
                 popup.dialog('close');
             });
         }
+
 
       }
 
