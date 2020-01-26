@@ -25,7 +25,6 @@ def publish_post():
         lng = data.pop("lng")
         database.addPost(data, lat, lng)
         print("created new entry in database")
-    return redirect('/')
 
 @app.route('/favorited/<postID>')
 def favorite_post(postID):

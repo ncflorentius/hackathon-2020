@@ -45,6 +45,7 @@
     var map, infoWindow;
     popups = {};
     places = {};
+    currentLocation = {};
 
     function AddPage(controlDiv, map) {
 
@@ -132,6 +133,10 @@
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+          currentLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
 
           console.log(pos);
 
@@ -252,6 +257,8 @@
         'Error: Your browser doesn\'t support geolocation.');
       infoWindow.open(map);
     }
+
+    function getDirectionsURL()
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
