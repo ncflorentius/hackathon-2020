@@ -34,7 +34,7 @@
 <body>
     <div id="map"></div>
     <h1 style="text-align: center;">Add New Post</h1>
-    <textarea id="description" class="text" cols="86" rows="15" name="postdetails">Edit Me!</textarea>
+    <textarea id="description" class="text" style="width:100%" rows=20 name="postdetails">Edit Me!</textarea>
     <button class="btn btn-primary btn-xl rounded-pill mt-5" onclick="submitPost(); window.location.href='/'">Post</button>
     <script>
         // Note: This example requires that you consent to location sharing when
@@ -60,7 +60,7 @@
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: -34.397, lng: 150.644 },
-                zoom: 8,
+                zoom: 15,
                 disableDefaultUI: true
             });
             infoWindow = new google.maps.InfoWindow;
