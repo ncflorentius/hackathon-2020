@@ -44,7 +44,7 @@
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
-                title: 'Click to zoom'
+                title: 'Click to zoom',
             });
 
             marker.addListener('click', function() {
@@ -53,7 +53,13 @@
                 infoWindow.open(map);
             });
 
-            map.setCenter(pos); 
+            google.maps.event.addListener( map, 'click', function() {
+                infoWindow.close();
+            });
+
+            map.setCenter(pos);
+            
+            getMarkerLocations(pos, map);
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -61,6 +67,56 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
+      }
+
+      function getMarkerLocations(pos, map) {
+         // ARRAY OF MARKERS
+          var places = [
+            {
+                lat: 44.953705,
+                lng: -93.089958,
+                image: 'marker1',
+                title: '0',
+                text: 'St Paul'
+            },
+            {
+                lat: 44.965622,
+                lng: -93.265763,
+                image: 'marker2',
+                title: '1',
+                text: 'Minneapolis S'
+            }
+        ];
+
+        for( var i = 0;  i < places.length;  i++ ) {
+          addPlace( places[i] );
+        }
+
+        function addPlace( place ) {
+            var content = 'Text: ' + place.text;
+            var infowindow = new google.maps.InfoWindow({
+                content: content    
+            });
+
+            // var image = '/js/markers/' + place.image + '.png';
+            var latlng = new google.maps.LatLng( place.lat, place.lng );
+            var marker = new google.maps.Marker({
+                position: latlng,
+                title: place.title,
+                // icon: image
+            });
+
+            marker.setMap( map );
+
+            google.maps.event.addListener( marker, 'click', function() {
+                infowindow.open( map, marker );
+            });
+
+            google.maps.event.addListener( map, 'click', function() {
+                infowindow.close();
+            });
+        }
+
       }
 
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
