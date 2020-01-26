@@ -1,21 +1,25 @@
 from flask import Flask, render_template, request, redirect
 import database
 import json
-app = Flask(__name__)
+application = api = Flask(__name__)
 
-@app.route('/')
+if __name__ == "__main__":
+    application.debug = True
+    application.run()
+
+@application.route('/')
 def show_map():
     return render_template('index.html')
 
-@app.route('/<latitude>/<longitude>')
+@application.route('/<latitude>/<longitude>')
 def get_posts_near_loc(latitude, longitude):
     return database.getPosts(float(longitude), float(latitude))
 
-@app.route('/create')
+@application.route('/create')
 def create_post():
     return render_template('addPage.html')
 
-@app.route('/create/submit/', methods=['POST'])
+@application.route('/create/submit/', methods=['POST'])
 def publish_post():
     if request.method == 'POST':
         '''create new post'''
@@ -26,14 +30,14 @@ def publish_post():
         database.addPost(data, lat, lng)
         print("created new entry in database")
 
-@app.route('/favorited/<postID>')
+@application.route('/favorited/<postID>')
 def favorite_post(postID):
     if request.method == 'GET':
         '''favorite the post with id'''
         database.incrementFavorites(postID)
     return redirect('/')
 
-@app.route('/feed/<latitude>/<longitude>')
+@application.route('/feed/<latitude>/<longitude>')
 def show_feed(latitude, longitude):
     posts = database.getPosts(float(longitude), float(latitude))
     posts = json.loads(posts)
