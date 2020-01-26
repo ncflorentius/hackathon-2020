@@ -39,9 +39,9 @@
   <div id="map"></div>
   <div id="popup" style="
   width: 90%;
-  height: 35%;
+  height: fit-content;
   position: absolute;
-  bottom: 2%;
+  bottom: -35%;
   left: 5%">
   </div>
   <script>
@@ -171,49 +171,7 @@
       infoWindow = new google.maps.InfoWindow;
 
       // Try HTML5 geolocation.
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          currentLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
-
-          console.log(pos);
-
-          var marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            title: 'Click to zoom',
-          });
-
-          map.setCenter(pos);
-
-          google.maps.event.addListener(map, 'idle', function () {
-            const Http = new XMLHttpRequest();
-            const coords = map.getCenter()
-            console.log(coords.lng());
-            const url = window.location.href + `${coords.lat()}/${coords.lng()}`;
-            Http.open("GET", url);
-            Http.send();
-            Http.onreadystatechange = (e) => {
-              if (Http.readyState == 4 && Http.status == 200) {
-                console.log(Http.responseText);
-                var responseJson = JSON.parse(Http.responseText);
-                getMarkerLocations(pos, map, responseJson["posts"]);
-              }
-            }
-          });
-        }, function () {
-          handleLocationError(true, infoWindow, map.getCenter());
-        });
-      } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-      }
+      updateMap()
     }
     function updateMap() {
         if (navigator.geolocation) {
@@ -266,7 +224,7 @@
       Http.send();
       place = places[placeID];
       place["FavoritesCount"] += 1;
-      newcontent = place["description"] + `<button class="btn btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
+      newcontent = place["description"] + `<div style="  position: relative; left: 35%;"><button class="btn btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button></div>`;
       popups[placeID] = popup;
       popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
           '  border-radius: 1rem;\n' +
@@ -284,7 +242,7 @@
       }
 
       function addPlace(place) {
-        var content = place["description"] + `<button class="btn btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
+        var content = place["description"] + `<div style="  position: relative; left: 35%;"><button class="btn btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button></div>`;
         this.places[place['_id']] = place;
         // var image = '/js/markers/' + place.image + '.png';
         var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
@@ -317,11 +275,34 @@
           '        <div class="card-body" style="font-family: \'Helvetica\'">'+ content + '</div>\n' +
 
           '      </div>'
+            var pos = -35;
+            var id = setInterval(frame, .5);
+            function frame() {
+                if (pos == 5) {
+                    clearInterval(id);
+                } else {
+                    pos++;
+                    popup.style.bottom = pos + '%';
+                }
+            }
 
         });
 
         google.maps.event.addListener(map, 'click', function () {
-          popup.innerHTML = '';
+
+           var pos = 0;
+            var id = setInterval(frame, 1);
+            function frame() {
+                if (pos == -35) {
+                    clearInterval(id);
+                    popup.innerHTML = ''
+                } else {
+                    pos--;
+                    popup.style.bottom = pos + '%';
+                }
+            }
+
+
         });
       }
     }
