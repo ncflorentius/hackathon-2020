@@ -125,16 +125,16 @@
             //  jQuery
            var popup=$('<div/>', {
             'id':'This is '+name,
-            'text':'Hello World!'
+            'text':content
 
            }).dialog({
             'autoOpen':false,
             'height':300,
-               'width': 900,
+            'width': 350,
             'resizable':false,
             'modal':false,
             'title':name,
-            'position': {my: 'bottom', at: "bottom", of: window },
+            'position': { at: "bottom", of: window },
                'background': 'white'
 
            });
