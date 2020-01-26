@@ -19,13 +19,35 @@
     <h1 class="display-1" style="text-align: center;">Feed</h1>
     {% for post in posts %}
     <div class="card m-4">
-        <div class='card-body' >
+        <div class='card-body'>
             <h3 class='display-3'>{{post["description"]}}</h3>
-            <h1 class="card-subtitle mb-2 text-muted"><a>@{{post["location"]["coordinates"][0]}},{{post["location"]["coordinates"][1]}}</a></h3>
-            <button class='btn btn-primary btn-xl rounded-pill mt-5'><i class="far fa-heart"></i>{{post["FavoritesCount"]}}</button>
+            <h1 class="card-subtitle mb-2 text-muted">
+                <a>@{{post["location"]["coordinates"][0]}},{{post["location"]["coordinates"][1]}}</a></h3>
+                <button onclick="favoritePlace('{{post['_id']}}')" class='btn btn-primary btn-xl rounded-pill mt-5'><i
+                        class="far fa-heart"></i><div>{{post["FavoritesCount"]}}</div></button>
         </div>
     </div>
     {% endfor %}
+    <script>
+        window.onload = function () {// Make sure DOM is ready
+            // Get the images
+            var posts = document.getElementsByClassName('btn');
+            // Loop over them
+            for (var i = 0, len = posts.length; i < len; i++) {
+                // Add the event
+                posts[i].addEventListener('click', function () {
+                    this.getElementsByTagName('div')[0].innerHTML = String(parseInt(this.getElementsByTagName('div')[0].innerHTML) + 1);
+                });
+            }
+        };
+        function favoritePlace(placeID) {
+            const Http = new XMLHttpRequest();
+            const url = `/favorited/${placeID}`;
+            console.log();
+            Http.open("GET", url);
+            Http.send();
+        }
+    </script>
 </body>
 
 </html>
