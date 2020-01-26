@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Geolocation</title>
+    s<link rel="stylesheet" href='/static/style.css' />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -16,9 +17,24 @@
         margin: 0;
         padding: 0;
       }
+       .ui-dialog-titlebar-close {
+			display: none;
+		}
+		.ui-dialog-titlebar {
+			display: none;
+		}
+
     </style>
   </head>
   <body>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+  crossorigin="anonymous"></script>
     <div id="map"></div>
     <script>
       // Note: This example requires that you consent to location sharing when
@@ -68,7 +84,6 @@
           handleLocationError(false, infoWindow, map.getCenter());
         }
       }
-
       function getMarkerLocations(pos, map) {
          // ARRAY OF MARKERS
           var places = [
@@ -106,14 +121,33 @@
                 // icon: image
             });
 
-            marker.setMap( map );
 
-            google.maps.event.addListener( marker, 'click', function() {
-                infowindow.open( map, marker );
+            //  jQuery
+           var popup=$('<div/>', {
+            'id':'This is '+name,
+            'text':'Hello World!'
+
+           }).dialog({
+            'autoOpen':false,
+            'height':300,
+               'width': 900,
+            'resizable':false,
+            'modal':false,
+            'title':name,
+            'position': {my: 'bottom', at: "bottom", of: window },
+               'background': 'white'
+
+           });
+           marker.setMap( map );
+
+
+            google.maps.event.addListener(marker, 'click', function(e) {
+            // console.log(e);
+            popup.dialog('open');
             });
 
             google.maps.event.addListener( map, 'click', function() {
-                infowindow.close();
+                popup.dialog('close');
             });
         }
 
