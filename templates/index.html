@@ -112,30 +112,48 @@
           // icon: image
         });
 
-        marker.setMap(map);
 
-        google.maps.event.addListener(marker, 'click', function () {
-          infowindow.open(map, marker);
-        });
+            //  jQuery
+           var popup=$('<div/>', {
+            'id':'This is '+name,
+            'text':content
 
-        google.maps.event.addListener(map, 'click', function () {
-          infowindow.close();
-        });
+           }).dialog({
+            'autoOpen':false,
+            'height':300,
+            'width': 350,
+            'resizable':false,
+            'modal':false,
+            'title':name,
+            'position': { at: "bottom", of: window },
+               'background': 'white'
+
+           });
+           marker.setMap( map );
+
+
+            google.maps.event.addListener(marker, 'click', function(e) {
+            // console.log(e);
+            popup.dialog('open');
+            });
+
+            google.maps.event.addListener( map, 'click', function() {
+                popup.dialog('close');
+            });
+        }
+
       }
 
-    }
-
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-      infoWindow.setPosition(pos);
-      infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-      infoWindow.open(map);
-    }
-  </script>
-  <script async defer
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+    </script>
+    <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
     </script>
-</body>
-
+  </body>
 </html>
