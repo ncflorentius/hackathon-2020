@@ -1,6 +1,31 @@
-<h1>Feed</h1>
+<!DOCTYPE html>
+<html>
 
-{% for post in posts %}
-<h1>{{post["description"]}}</h1>
-<button>Favorites {{post["FavoritesCount"]}}</button>
-{% endfor %}
+<head>
+    <script src="https://kit.fontawesome.com/675a0d1294.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1 class="display-1" style="text-align: center;">Feed</h1>
+    {% for post in posts %}
+    <div class="card m-4">
+        <div class='card-body' >
+            <h3 class='display-3'>{{post["description"]}}</h3>
+            <h1 class="card-subtitle mb-2 text-muted"><a>@{{post["location"]["coordinates"][0]}},{{post["location"]["coordinates"][1]}}</a></h3>
+            <button class='btn btn-primary btn-xl rounded-pill mt-5'><i class="far fa-heart"></i>{{post["FavoritesCount"]}}</button>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+
+</html>

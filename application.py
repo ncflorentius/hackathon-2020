@@ -37,4 +37,7 @@ def favorite_post(postID):
 def show_feed(latitude, longitude):
     posts = database.getPosts(float(longitude), float(latitude))
     posts = json.loads(posts)
+    for post in posts["posts"]:
+        post["location"]["coordinates"][0] = "%.2f" % post["location"]["coordinates"][0]
+        post["location"]["coordinates"][1] = "%.2f" % post["location"]["coordinates"][1]
     return render_template('feed.html', posts=posts["posts"])
