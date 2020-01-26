@@ -161,17 +161,13 @@
       var addPageControlDiv = document.createElement('div');
       var addPageControl = new AddPage(addPageControlDiv, map);
 
-<<<<<<< HEAD
         var viewFeedControlDiv = document.createElement('div');
         var viewFeedControl = new ViewFeed(addPageControlDiv, map);
 
         addPageControlDiv.index = 1;
         viewFeedControlDiv.index = 2;
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
-=======
-      addPageControlDiv.index = 1;
-      map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
->>>>>>> ui
+
 
       infoWindow = new google.maps.InfoWindow;
 
@@ -229,7 +225,7 @@
       Http.send();
       place = places[placeID];
       place["FavoritesCount"] += 1;
-      newcontent = place["description"] + `<button onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
+      newcontent = place["description"] + `<button class="btn btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
       popups[placeID] = popup;
       popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
           '  border-radius: 1rem;\n' +
@@ -246,7 +242,7 @@
       }
 
       function addPlace(place) {
-        var content = place["description"] + `<button onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
+        var content = place["description"] + `<button class="btn btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
         this.places[place['_id']] = place;
         // var image = '/js/markers/' + place.image + '.png';
         var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
