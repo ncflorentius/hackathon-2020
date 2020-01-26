@@ -58,6 +58,17 @@
           });
 
           map.setCenter(pos);
+
+          map.addListener('tiles_loaded', function () {
+            console.log("ahhhh");
+            const Http = new XMLHttpRequest();
+            const url = window.location.href + '/47.05/94.01';
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+              console.log(Http.responseText)
+            }
+          });
         }, function () {
           handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -93,16 +104,6 @@
         'Error: Your browser doesn\'t support geolocation.');
       infoWindow.open(map);
     }
-
-    map.addListener('tiles_loaded', function () {
-      const Http = new XMLHttpRequest();
-      const url = window.location.href + '/47.05/94.01';
-      Http.open("GET", url);
-      Http.send();
-      Http.onreadystatechange = (e) => {
-        console.log(Http.responseText)
-      }
-    });
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
