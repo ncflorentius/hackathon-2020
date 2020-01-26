@@ -194,10 +194,18 @@
 
         // var image = '/js/markers/' + place.image + '.png';
         var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
+
+        var postIcon = {
+        url: "static/post.svg", // url
+        scaledSize: new google.maps.Size(30, 30), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(15, 15) // anchor
+        };
+
         var marker = new google.maps.Marker({
           position: latlng,
           title: place.title,
-          // icon: image
+          icon: postIcon
         });
            var popup=$('<div/>', {
             'id':'This is '+name,
