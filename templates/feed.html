@@ -1,0 +1,6 @@
+<h1>Feed</h1>
+
+{% for post in posts %}
+<h1>{{post["description"]}}</h1>
+<button>Favorites {{post["FavoritesCount"]}}</button>
+{% endfor %}

@@ -5,15 +5,11 @@
   <title>Geolocation</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-    <link rel="stylesheet" href='/static/style2.css' />
-  <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-  <script
-  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href='/static/style2.css' />
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <style>
     /* Always set the map height explicitly to define the size of the div
@@ -29,9 +25,10 @@
       margin: 0;
       padding: 0;
     }
-      .ui-dialog-titlebar {
-			display: none;
-		}
+
+    .ui-dialog-titlebar {
+      display: none;
+    }
   </style>
 
 </head>
@@ -46,11 +43,13 @@
     // locate you.
 
     var map, infoWindow;
+    popups = {};
+    places = {};
 
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 41.85, lng: -87.65 },
-        zoom: 8,
+        zoom: 12,
         disableDefaultUI: true,
         styles: [
           {
@@ -81,7 +80,6 @@
         ]
       });
       infoWindow = new google.maps.InfoWindow;
-
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -98,17 +96,6 @@
             title: 'Click to zoom',
           });
 
-          marker.addListener('click', function () {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Sample posting content body goes here');
-            infoWindow.open(map);
-          });
-
-
-          google.maps.event.addListener(map, 'click', function () {
-            infoWindow.close();
-          });
-
           map.setCenter(pos);
 
           google.maps.event.addListener(map, 'idle', function () {
@@ -119,10 +106,10 @@
             Http.open("GET", url);
             Http.send();
             Http.onreadystatechange = (e) => {
-              if(Http.readyState==4 && Http.status==200){
-              console.log(Http.responseText);
-              var responseJson = JSON.parse(Http.responseText);
-              getMarkerLocations(pos, map, responseJson["posts"]);
+              if (Http.readyState == 4 && Http.status == 200) {
+                console.log(Http.responseText);
+                var responseJson = JSON.parse(Http.responseText);
+                getMarkerLocations(pos, map, responseJson["posts"]);
               }
             }
           });
@@ -136,6 +123,32 @@
       }
     }
 
+    function favoritePlace(placeID) {
+      const Http = new XMLHttpRequest();
+      const url = window.location.href + `favorited/${placeID}`;
+      Http.open("GET", url);
+      Http.send();
+      place = places[placeID];
+      place["FavoritesCount"] += 1;
+      newcontent = place["description"] + `<button onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
+      popups[placeID].dialog('close');
+      var popup = $('<div/>', {
+          'id': 'This is ' + name,
+          'html': newcontent
+        }).dialog({
+          'autoOpen': false,
+          'height': 300,
+          'width': 350,
+          'resizable': false,
+          'modal': false,
+          'title': name,
+          'position': { at: "bottom", of: window },
+          'background': 'white'
+        });
+      popups[placeID] = popup;
+      popups[placeID].dialog('open');
+    }
+
     function getMarkerLocations(pos, map, places) {
       // ARRAY OF MARKERS
       for (var i = 0; i < places.length; i++) {
@@ -143,11 +156,8 @@
       }
 
       function addPlace(place) {
-        var content = 'Text: ' + place["description"];
-        var infowindow = new google.maps.InfoWindow({
-          content: content
-        });
-
+        var content = place["description"] + `<button onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
+        this.places[place['_id']] = place;
         // var image = '/js/markers/' + place.image + '.png';
         var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
         var marker = new google.maps.Marker({
@@ -155,47 +165,44 @@
           title: place.title,
           // icon: image
         });
-           var popup=$('<div/>', {
-            'id':'This is '+name,
-            'text':content
+        var popup = $('<div/>', {
+          'id': 'This is ' + name,
+          'html': content
+        }).dialog({
+          'autoOpen': false,
+          'height': 300,
+          'width': 350,
+          'resizable': false,
+          'modal': false,
+          'title': name,
+          'position': { at: "bottom", of: window },
+          'background': 'white'
+        });
+        popups[place['_id']] = popup
+        marker.setMap(map);
 
-           }).dialog({
-            'autoOpen':false,
-            'height':300,
-            'width': 350,
-            'resizable':false,
-            'modal':false,
-            'title':name,
-            'position': { at: "bottom", of: window },
-               'background': 'white'
+        placeID = place['_id']
+        google.maps.event.addListener(marker, 'click', function (e) {
+          popups[placeID].dialog('open');
+        });
 
-           });
-           marker.setMap( map );
-
-
-            google.maps.event.addListener(marker, 'click', function(e) {
-            // console.log(e);
-            popup.dialog('open');
-            });
-
-            google.maps.event.addListener( map, 'click', function() {
-                popup.dialog('close');
-            });
-        }
-
-
+        google.maps.event.addListener(map, 'click', function () {
+          popups[placeID].dialog('close');
+        });
       }
+    }
 
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
-    </script>
-    <script async defer
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+      infoWindow.open(map);
+    }
+  </script>
+  <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
     </script>
-  </body>
+</body>
+
 </html>
