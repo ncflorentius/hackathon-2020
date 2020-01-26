@@ -5,7 +5,8 @@
   <title>Geolocation</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <link rel="stylesheet" href='/static/style2.css' />
+    <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+  <link rel="stylesheet" href='/static/style.css' />
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
@@ -36,6 +37,13 @@
 <body>
 
   <div id="map"></div>
+  <div id="popup" style="
+  width: 90%;
+  height: 35%;
+  position: absolute;
+  bottom: 2%;
+  left: 5%">
+  </div>
   <script>
     // Note: This example requires that you consent to location sharing when
     // prompted by your browser. If you see the error "The Geolocation service
@@ -161,6 +169,7 @@
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
 
       infoWindow = new google.maps.InfoWindow;
+
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -216,22 +225,13 @@
       place = places[placeID];
       place["FavoritesCount"] += 1;
       newcontent = place["description"] + `<button onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
-      popups[placeID].dialog('close');
-      var popup = $('<div/>', {
-          'id': 'This is ' + name,
-          'html': newcontent
-        }).dialog({
-          'autoOpen': false,
-          'height': 300,
-          'width': 350,
-          'resizable': false,
-          'modal': false,
-          'title': name,
-          'position': { at: "bottom", of: window },
-          'background': 'white'
-        });
       popups[placeID] = popup;
-      popups[placeID].dialog('open');
+      popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
+          '  border-radius: 1rem;\n' +
+          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+          'height: 100%">\n' +
+          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ newcontent + '</div>\n' +
+          '      </div>';
     }
 
     function getMarkerLocations(pos, map, places) {
@@ -257,34 +257,30 @@
           position: latlng,
           title: place.title,
           icon: postIcon
+
         });
-        var popup = $('<div/>', {
-          'id': 'This is ' + name,
-          'html': content
-        }).dialog({
-          'autoOpen': false,
-          'height': 300,
-          'width': 350,
-          'resizable': false,
-          'modal': false,
-          'title': name,
-          'position': { at: "bottom", of: window },
-          'background': 'white'
-        });
+        popup = document.getElementById("popup");
+
         popups[place['_id']] = popup
         marker.setMap(map);
 
         placeID = place['_id']
-        google.maps.event.addListener(marker, 'click', function (e) {
-          popup.dialog('open');
+        google.maps.event.addListener(marker, 'click', function () {
+          popup.innerHTML =
+          '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
+          '  border-radius: 1rem;\n' +
+          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+          'height: 100%">\n' +
+          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ content + '</div>\n' +
+          '      </div>'
+
         });
 
         google.maps.event.addListener(map, 'click', function () {
-          popup.dialog('close');
+          popup.innerHTML = '';
         });
       }
     }
-
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       infoWindow.setPosition(pos);
       infoWindow.setContent(browserHasGeolocation ?

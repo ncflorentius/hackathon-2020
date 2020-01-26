@@ -164,6 +164,9 @@ header.masthead .bg-circle-4 {
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   width: 1920px;
 }
+.ui-widget {
+  font-family: 'Lato';
+}
 .ui-dialog-titlebar-close {
     visibility: hidden;
 }
@@ -173,3 +176,12 @@ header.masthead .bg-circle-4 {
 .ui-dialog-titlebar {
 			display: none;
 		}
+#popup {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+}
