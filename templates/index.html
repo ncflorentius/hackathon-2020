@@ -235,11 +235,11 @@
 
         placeID = place['_id']
         google.maps.event.addListener(marker, 'click', function (e) {
-          popups[placeID].dialog('open');
+          popup.dialog('open');
         });
 
         google.maps.event.addListener(map, 'click', function () {
-          popups[placeID].dialog('close');
+          popup.dialog('close');
         });
       }
     }
