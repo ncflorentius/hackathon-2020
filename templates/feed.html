@@ -16,15 +16,29 @@
 </head>
 
 <body>
-    <h1 class="display-1" style="text-align: center;">Feed</h1>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-bottom">
+        <a class="display-2 m-3" href="#">Stumble</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link display-2 m-3" href="/">Map</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link display-2 m-3" href="/create">Create</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     {% for post in posts %}
     <div class="card m-4">
         <div class='card-body'>
             <h3 class='display-3'>{{post["description"]}}</h3>
-            <h1 class="card-subtitle mb-2 text-muted">
+            <h1 class="display-5 mt-1 mb-1 text-muted">
                 <a>@{{post["location"]["coordinates"][0]}},{{post["location"]["coordinates"][1]}}</a></h3>
-                <button onclick="favoritePlace('{{post['_id']}}')" class='btn btn-primary btn-xl rounded-pill mt-5'><i
-                        class="far fa-heart"></i><div>{{post["FavoritesCount"]}}</div></button>
+                <button onclick="favoritePlace('{{post['_id']}}')" class='btn btn-primary btn-xl rounded-pill mt-5'><i class="fas fa-map-pin"></i><div>{{post["FavoritesCount"]}}</div></button>
         </div>
     </div>
     {% endfor %}
