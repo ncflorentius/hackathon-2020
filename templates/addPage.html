@@ -7,7 +7,9 @@
     <meta charset="utf-8">
 
     <style>
-        /* Optional: Makes the sample page fill the window. */
+        #map {
+            height: 25%;
+        }
         html,
         body {
             height: 100%;
@@ -30,21 +32,55 @@
 </head>
 
 <body>
+    <div id="map"></div>
     <h1>Add new post</h1>
     <form action="/submit" method="POST">
         <textarea id="description" class="text" cols="86" rows="20" name="postdetails">Edit Me!</textarea>
         <input type='submit' value='postdetails' class="btn btn-primary btn-xl rounded-pill mt-5">Submit Post</input>
     </form>
     <script>
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-            }, function () {
-                handleLocationError(true, infoWindow, map.getCenter());
+        // Note: This example requires that you consent to location sharing when
+        // prompted by your browser. If you see the error "The Geolocation service
+        // failed.", it means you probably did not give permission for the browser to
+        // locate you.
+
+        var map, infoWindow, centerMarker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8,
+                disableDefaultUI: true
             });
+            infoWindow = new google.maps.InfoWindow;
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    centerMarker = new google.maps.Marker({
+                        position: pos,
+                        map: map,
+                        title: 'Click to zoom',
+                    });
+
+                    map.setCenter(pos);
+
+                    google.maps.event.addListener(map, 'bounds_changed', function () {
+                        centerMarker.setPosition(map.getCenter());
+                    });
+
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
         }
 
         function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -57,6 +93,9 @@
     </script>
        <script src="/static/vendor/jquery/jquery.min.js"></script>
   <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
+        </script>
 </body>
 
 </html>
