@@ -230,23 +230,6 @@
       place = places[placeID];
       place["FavoritesCount"] += 1;
       newcontent = place["description"] + `<button onclick=\"favoritePlace(\'${place['_id']}\')\">Favorite ${place['FavoritesCount']}</button>`;
-<<<<<<< HEAD
-=======
-      popups[placeID].dialog('close');
-      var popup = $('<div/>', {
-        'id': 'This is ' + name,
-        'html': newcontent
-      }).dialog({
-        'autoOpen': false,
-        'height': 300,
-        'width': 350,
-        'resizable': false,
-        'modal': false,
-        'title': name,
-        'position': { at: "bottom", of: window },
-        'background': 'white'
-      });
->>>>>>> ui
       popups[placeID] = popup;
       popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
           '  border-radius: 1rem;\n' +
