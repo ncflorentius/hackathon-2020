@@ -30,6 +30,7 @@
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
     var map, infoWindow;
+
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -34.397, lng: 150.644 },
@@ -66,7 +67,7 @@
 
           map.setCenter(pos);
 
-          google.maps.event.addListener(map, 'bounds_changed', function () {
+          google.maps.event.addListener(map, 'idle', function () {
             const Http = new XMLHttpRequest();
             const coords = map.getCenter()
             console.log(coords.lng());
@@ -74,11 +75,14 @@
             Http.open("GET", url);
             Http.send();
             Http.onreadystatechange = (e) => {
-              console.log(Http.responseText)
+              if(Http.readyState==4 && Http.status==200){
+              console.log(Http.responseText);
+              var responseJson = JSON.parse(Http.responseText);
+              getMarkerLocations(pos, map, responseJson["posts"]);
+              }
             }
           });
 
-          getMarkerLocations(pos, map);
         }, function () {
           handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -88,37 +92,20 @@
       }
     }
 
-    function getMarkerLocations(pos, map) {
+    function getMarkerLocations(pos, map, places) {
       // ARRAY OF MARKERS
-      var places = [
-        {
-          lat: 44.953705,
-          lng: -93.089958,
-          image: 'marker1',
-          title: '0',
-          text: 'St Paul'
-        },
-        {
-          lat: 44.965622,
-          lng: -93.265763,
-          image: 'marker2',
-          title: '1',
-          text: 'Minneapolis S'
-        }
-      ];
-
       for (var i = 0; i < places.length; i++) {
         addPlace(places[i]);
       }
 
       function addPlace(place) {
-        var content = 'Text: ' + place.text;
+        var content = 'Text: ' + place["description"];
         var infowindow = new google.maps.InfoWindow({
           content: content
         });
 
         // var image = '/js/markers/' + place.image + '.png';
-        var latlng = new google.maps.LatLng(place.lat, place.lng);
+        var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
         var marker = new google.maps.Marker({
           position: latlng,
           title: place.title,
