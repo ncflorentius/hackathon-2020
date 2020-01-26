@@ -5,7 +5,7 @@
   <title>Geolocation</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" href='/static/style.css' />
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
@@ -113,7 +113,7 @@
       controlUI.appendChild(controlText);
 
       // Setup the click event listeners: simply set the map to Chicago.
-      controlUI.addEventListener('click', function () {
+      controlUI.addEventListener('click', function() {
         const coords = map.getCenter()
         console.log(coords.lng());
         const feedUrl = "/feed/" + `${coords.lat()}/${coords.lng()}`;
@@ -161,12 +161,17 @@
       var addPageControlDiv = document.createElement('div');
       var addPageControl = new AddPage(addPageControlDiv, map);
 
-      var viewFeedControlDiv = document.createElement('div');
-      var viewFeedControl = new ViewFeed(addPageControlDiv, map);
+<<<<<<< HEAD
+        var viewFeedControlDiv = document.createElement('div');
+        var viewFeedControl = new ViewFeed(addPageControlDiv, map);
 
+        addPageControlDiv.index = 1;
+        viewFeedControlDiv.index = 2;
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
+=======
       addPageControlDiv.index = 1;
-      viewFeedControlDiv.index = 2;
       map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
+>>>>>>> ui
 
       infoWindow = new google.maps.InfoWindow;
 
@@ -244,11 +249,11 @@
 >>>>>>> ui
       popups[placeID] = popup;
       popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
-        '  border-radius: 1rem;\n' +
-        '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
-        'height: 100%">\n' +
-        '        <div class="card-body" style="font-family: \'Helvetica\'">' + newcontent + '</div>\n' +
-        '      </div>';
+          '  border-radius: 1rem;\n' +
+          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+          'height: 100%">\n' +
+          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ newcontent + '</div>\n' +
+          '      </div>';
     }
 
     function getMarkerLocations(pos, map, places) {
@@ -284,12 +289,13 @@
         placeID = place['_id']
         google.maps.event.addListener(marker, 'click', function () {
           popup.innerHTML =
-            '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
-            '  border-radius: 1rem;\n' +
-            '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
-            'height: 100%">\n' +
-            '        <div class="card-body" style="font-family: \'Helvetica\'">' + content + '</div>\n' +
-            '      </div>'
+          '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
+          '  border-radius: 1rem;\n' +
+          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+          'height: 100%">\n' +
+          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ content + '</div>\n' +
+
+          '      </div>'
 
         });
 
