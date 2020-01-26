@@ -1,6 +1,14 @@
 from pymongo import MongoClient
+import json
+from bson import ObjectId
 client = MongoClient("mongodb+srv://maxomdal:Cloud2006@cluster0-oyzhb.mongodb.net/test?retryWrites=true&w=majority")
 db = client.test
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 # Get Posts from database by location
 def getPosts(longitude, latitude):
@@ -15,7 +23,7 @@ def getPosts(longitude, latitude):
             }
         }
     }).limit(50)
-    return list(posts)
+    return JSONEncoder().encode({"posts": list(posts)})
 
 # Add new post to database with data being our dictionary representing the post data
 def addPost(data, latitude, longitude):

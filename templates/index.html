@@ -1,125 +1,129 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Geolocation</title>
-    s<link rel="stylesheet" href='/static/style.css' />
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
+
+<head>
+  <title>Geolocation</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-       .ui-dialog-titlebar-close {
-			display: none;
-		}
-		.ui-dialog-titlebar {
-			display: none;
-		}
+    #map {
+      height: 100%;
+    }
 
-    </style>
-  </head>
-  <body>
-  <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-  <script
-  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-  crossorigin="anonymous"></script>
-    <div id="map"></div>
-    <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-      var map, infoWindow;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
-        infoWindow = new google.maps.InfoWindow;
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+<body>
+  <div id="map"></div>
+  <script>
+    // Note: This example requires that you consent to location sharing when
+    // prompted by your browser. If you see the error "The Geolocation service
+    // failed.", it means you probably did not give permission for the browser to
+    // locate you.
+    var map, infoWindow;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8
+      });
+      infoWindow = new google.maps.InfoWindow;
 
-            var marker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: 'Click to zoom',
-            });
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
 
-            marker.addListener('click', function() {
-                infoWindow.setPosition(pos);
-                infoWindow.setContent('Sample posting content body goes here');
-                infoWindow.open(map);
-            });
+          console.log(pos);
 
-            google.maps.event.addListener( map, 'click', function() {
-                infoWindow.close();
-            });
-
-            map.setCenter(pos);
-            
-            getMarkerLocations(pos, map);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
+          var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: 'Click to zoom',
           });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }
-      function getMarkerLocations(pos, map) {
-         // ARRAY OF MARKERS
-          var places = [
-            {
-                lat: 44.953705,
-                lng: -93.089958,
-                image: 'marker1',
-                title: '0',
-                text: 'St Paul'
-            },
-            {
-                lat: 44.965622,
-                lng: -93.265763,
-                image: 'marker2',
-                title: '1',
-                text: 'Minneapolis S'
+
+          marker.addListener('click', function () {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Sample posting content body goes here');
+            infoWindow.open(map);
+          });
+
+
+          google.maps.event.addListener(map, 'click', function () {
+            infoWindow.close();
+          });
+
+          map.setCenter(pos);
+
+          google.maps.event.addListener(map, 'bounds_changed', function () {
+            const Http = new XMLHttpRequest();
+            const coords = map.getCenter()
+            console.log(coords.lng());
+            const url = window.location.href + `${coords.lat()}/${coords.lng()}`;
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+              console.log(Http.responseText)
             }
-        ];
+          });
 
-        for( var i = 0;  i < places.length;  i++ ) {
-          addPlace( places[i] );
+          getMarkerLocations(pos, map);
+        }, function () {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+    }
+
+    function getMarkerLocations(pos, map) {
+      // ARRAY OF MARKERS
+      var places = [
+        {
+          lat: 44.953705,
+          lng: -93.089958,
+          image: 'marker1',
+          title: '0',
+          text: 'St Paul'
+        },
+        {
+          lat: 44.965622,
+          lng: -93.265763,
+          image: 'marker2',
+          title: '1',
+          text: 'Minneapolis S'
         }
+      ];
 
-        function addPlace( place ) {
-            var content = 'Text: ' + place.text;
-            var infowindow = new google.maps.InfoWindow({
-                content: content    
-            });
+      for (var i = 0; i < places.length; i++) {
+        addPlace(places[i]);
+      }
 
-            // var image = '/js/markers/' + place.image + '.png';
-            var latlng = new google.maps.LatLng( place.lat, place.lng );
-            var marker = new google.maps.Marker({
-                position: latlng,
-                title: place.title,
-                // icon: image
-            });
+      function addPlace(place) {
+        var content = 'Text: ' + place.text;
+        var infowindow = new google.maps.InfoWindow({
+          content: content
+        });
+
+        // var image = '/js/markers/' + place.image + '.png';
+        var latlng = new google.maps.LatLng(place.lat, place.lng);
+        var marker = new google.maps.Marker({
+          position: latlng,
+          title: place.title,
+          // icon: image
+        });
 
 
             //  jQuery
