@@ -46,7 +46,7 @@
     popups = {};
     places = {};
 
-    function CenterControl(controlDiv, map) {
+    function AddPage(controlDiv, map) {
 
       // Set CSS for the control border.
       var controlUI = document.createElement('div');
@@ -76,6 +76,7 @@
 
       // Setup the click event listeners: simply set the map to Chicago.
       controlUI.addEventListener('click', function() {
+        location.href = "/create";
         // map.setCenter(chicago);
       });
 
@@ -115,13 +116,13 @@
         ]
       });
 
-      // Create the DIV to hold the control and call the CenterControl()
+      // Create the DIV to hold the control and call the AddPage()
         // constructor passing in this DIV.
-        var centerControlDiv = document.createElement('div');
-        var centerControl = new CenterControl(centerControlDiv, map);
+        var addPageControlDiv = document.createElement('div');
+        var addPageControl = new AddPage(addPageControlDiv, map);
 
-        centerControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
+        addPageControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
 
       infoWindow = new google.maps.InfoWindow;
       // Try HTML5 geolocation.
