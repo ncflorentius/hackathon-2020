@@ -1,2 +1,2 @@
-export FLASK_APP=map_page.py
+export FLASK_APP=application.py
 flask run

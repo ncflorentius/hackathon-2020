@@ -1,3 +1,11 @@
 flask
 pymongo
 dnspython
+Click
+dnspython
+itsdangerous
+Jinja2
+MarkupSafe
+Werkzeug
+awscli
+awsebcli
