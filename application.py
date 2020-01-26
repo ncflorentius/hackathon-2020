@@ -19,7 +19,7 @@ def create_post():
 def publish_post():
     if request.method == 'POST':
         '''create new post'''
-        data = request.get_json() # a multidict containing POST data
+        data = request.get_json()
         data["FavoritesCount"] = 0
         lat = data.pop("lat")
         lng = data.pop("lng")
