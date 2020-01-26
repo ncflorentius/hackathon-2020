@@ -1,3 +1,4 @@
+import pymongo
 from pymongo import MongoClient
 import json
 from bson import ObjectId
@@ -19,10 +20,10 @@ def getPosts(longitude, latitude):
                     "type":"Point",
                     "coordinates":[longitude,latitude]
                 },
-                "$maxDistance": 50000
+                "$maxDistance": 10000
             }
         }
-    }).limit(50)
+    }).limit(50).sort([("FavoritesCount", pymongo.DESCENDING)])
     return JSONEncoder().encode({"posts": list(posts)})
 
 # Add new post to database with data being our dictionary representing the post data
@@ -33,3 +34,10 @@ def addPost(data, latitude, longitude):
         return True
     else:
         return False
+
+
+def incrementFavorites(postID):
+    result = db.inventory.update({"_id": ObjectId(postID)}, {
+        "$inc": {"FavoritesCount": 1}
+    })
+    print(result)
