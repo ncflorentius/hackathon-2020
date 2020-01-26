@@ -14,10 +14,15 @@ def get_posts_near_loc(latitude, longitude):
 def create_post():
     return render_template('addPage.html')
 
-@app.route('/submit', methods=['POST'])
+@app.route('/create/submit/', methods=['POST'])
 def publish_post():
     if request.method == 'POST':
         '''create new post'''
-        data = request.form # a multidict containing POST data
-        database.addPost(data)
+        data = request.get_json() # a multidict containing POST data
+        data["FavoritesCount"] = 0
+        lat = data.pop("lat")
+        lng = data.pop("lng")
+        database.addPost(data, lat, lng)
+        print(data)
+        print("created new entry in database")
     return redirect('/')

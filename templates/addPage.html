@@ -33,11 +33,9 @@
 
 <body>
     <div id="map"></div>
-    <h1>Add new post</h1>
-    <form action="/submit" method="POST">
-        <textarea id="description" class="text" cols="86" rows="20" name="postdetails">Edit Me!</textarea>
-        <input type='submit' value='postdetails' class="btn btn-primary btn-xl rounded-pill mt-5">Submit Post</input>
-    </form>
+    <h1 style="text-align: center;">Add New Post</h1>
+    <textarea id="description" class="text" cols="86" rows="20" name="postdetails">Edit Me!</textarea>
+    <button class="btn btn-primary btn-xl rounded-pill mt-5" onclick="submitPost()">Post</button>
     <script>
         // Note: This example requires that you consent to location sharing when
         // prompted by your browser. If you see the error "The Geolocation service
@@ -45,6 +43,19 @@
         // locate you.
 
         var map, infoWindow, centerMarker;
+
+        function submitPost() {
+            const description = document.getElementById("description").value;
+            const lat = centerMarker.position.lat();
+            const lng = centerMarker.position.lng();
+            const Http = new XMLHttpRequest();
+            const coords = map.getCenter()
+            const url = window.location.href + "/submit";
+            Http.open("POST", url);
+            Http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+            data = {"description":description, "lat":lat, "lng":lng};
+            Http.send(JSON.stringify(data));
+        }
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
