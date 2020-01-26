@@ -217,7 +217,50 @@
         handleLocationError(false, infoWindow, map.getCenter());
       }
     }
+    function updateMap() {
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          currentLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
 
+          console.log(pos);
+
+          var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: 'Click to zoom',
+          });
+
+          map.setCenter(pos);
+
+          google.maps.event.addListener(map, 'idle', function () {
+            const Http = new XMLHttpRequest();
+            const coords = map.getCenter()
+            console.log(coords.lng());
+            const url = window.location.href + `${coords.lat()}/${coords.lng()}`;
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+              if (Http.readyState == 4 && Http.status == 200) {
+                console.log(Http.responseText);
+                var responseJson = JSON.parse(Http.responseText);
+                getMarkerLocations(pos, map, responseJson["posts"]);
+              }
+            }
+          });
+
+        }, function () {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+      } else {
+        }
+    }
     function favoritePlace(placeID) {
       const Http = new XMLHttpRequest();
       const url = window.location.href + `favorited/${placeID}`;
@@ -233,6 +276,7 @@
           'height: 100%">\n' +
           '        <div class="card-body" style="font-family: \'Helvetica\'">'+ newcontent + '</div>\n' +
           '      </div>';
+      updateMap();
     }
 
     function getMarkerLocations(pos, map, places) {
