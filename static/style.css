@@ -188,14 +188,14 @@ header.masthead .bg-circle-4 {
 
 footer {
   background-color: #FBF5F3;
-  height: 180px;
+  height: 80px;
 }
 
 .tabbar-button {
   position: fixed;
-  height: 80px;
-  width: 80px;
-  bottom: 50px;
+  height: 30px;
+  width: 30px;
+  bottom: 25px;
   margin: auto;
 }
 
@@ -207,17 +207,13 @@ footer {
   right: 15%
 }
 
-.tabbar-button-center {
-  bottom: 100px;
-}
-
 .tabbar-center-circle {
   position: relative;
-  bottom: 100px;
+  bottom: 50px;
   margin: auto;
-  height: 200px;
-  width: 200px;
-  background-color: #e2dddb;
+  height: 100px;
+  width: 100px;
+  background-color: #ff495c;
   border-radius: 50%;
   text-align: center;
 }
@@ -230,4 +226,6 @@ footer {
 
 .icon {
   vertical-align: middle;
+  height: 30px;
+  width: 30px;
 }
