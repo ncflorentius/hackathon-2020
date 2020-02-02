@@ -2,51 +2,51 @@
 <html>
 
 <head>
-  <title>Geolocation</title>
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
     <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-  <link rel="stylesheet" href='/static/style.css' />
-  <script src="https://kit.fontawesome.com/675a0d1294.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href='/static/style.css' />
+    <script src="https://kit.fontawesome.com/675a0d1294.js" crossorigin="anonymous"></script>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <style>
-    /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-    #map {
-      height: 100%;
-    }
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+        #map {
+            height: 100%;
+        }
 
-    /* Optional: Makes the sample page fill the window. */
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    .ui-dialog-titlebar {
-      display: none;
-    }
-  </style>
+        .ui-dialog-titlebar {
+            display: none;
+        }
+    </style>
 
 </head>
 
 <body>
 
-  <div id="map"></div>
-  <div id="popup" style="
+<div id="map"></div>
+<div id="popup" style="
   width: 90%;
   height: fit-content;
   position: absolute;
   bottom: -35%;
   left: 5%">
-  </div>
-  <script>
+</div>
+<script>
     // Note: This example requires that you consent to location sharing when
     // prompted by your browser. If you see the error "The Geolocation service
     // failed.", it means you probably did not give permission for the browser to
@@ -59,108 +59,265 @@
 
     function AddPage(controlDiv, map) {
 
-      // Set CSS for the control border.
-      var controlUI = document.createElement('div');
-      // controlUI.style.backgroundColor = '#fff';
-      // controlUI.style.border = '2px solid #fff';
-      // controlUI.style.borderRadius = '3px';
-      // controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-      // controlUI.style.cursor = 'pointer';
-      // controlUI.style.marginBottom = '22px';
-      // controlUI.style.textAlign = 'center';
-      controlUI.style.cursor = 'pointer';
-      controlUI.style.backgroundImage = "url(/static/plus.svg)";
-      controlUI.style.height = '100px';
-      controlUI.style.width = '100px';
-      controlUI.title = 'Click to add a post';
-      controlDiv.appendChild(controlUI);
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        // controlUI.style.backgroundColor = '#fff';
+        // controlUI.style.border = '2px solid #fff';
+        // controlUI.style.borderRadius = '3px';
+        // controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        // controlUI.style.cursor = 'pointer';
+        // controlUI.style.marginBottom = '22px';
+        // controlUI.style.textAlign = 'center';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.backgroundImage = "url(/static/plus.svg)";
+        controlUI.style.height = '100px';
+        controlUI.style.width = '100px';
+        controlUI.title = 'Click to add a post';
+        controlDiv.appendChild(controlUI);
 
-      // Set CSS for the control interior.
-      var controlText = document.createElement('div');
-      controlText.style.color = 'rgb(25,25,25)';
-      controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-      controlText.style.fontSize = '16px';
-      controlText.style.lineHeight = '38px';
-      controlText.style.paddingLeft = '5px';
-      controlText.style.paddingRight = '15px';
-      controlUI.appendChild(controlText);
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '15px';
+        controlUI.appendChild(controlText);
 
-      // Setup the click event listeners: simply set the map to Chicago.
-      controlUI.addEventListener('click', function () {
-        location.href = "/create";
-        // map.setCenter(chicago);
-      });
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function () {
+            location.href = "/create";
+            // map.setCenter(chicago);
+        });
 
     }
 
     function ViewFeed(controlDiv, map) {
 
-      // Set CSS for the control border.
-      var controlUI = document.createElement('div');
-      controlUI.style.cursor = 'pointer';
-      controlUI.style.backgroundImage = "url(/static/feedbutton.svg)";
-      controlUI.style.height = '100px';
-      controlUI.style.width = '100px';
-      controlUI.title = 'Click to switch to feed view';
-      controlDiv.appendChild(controlUI);
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.backgroundImage = "url(/static/feedbutton.svg)";
+        controlUI.style.height = '100px';
+        controlUI.style.width = '100px';
+        controlUI.title = 'Click to switch to feed view';
+        controlDiv.appendChild(controlUI);
 
-      // Set CSS for the control interior.
-      var controlText = document.createElement('div');
-      controlText.style.color = 'rgb(25,25,25)';
-      controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-      controlText.style.fontSize = '16px';
-      controlText.style.lineHeight = '38px';
-      controlText.style.paddingLeft = '5px';
-      controlText.style.paddingRight = '15px';
-      controlUI.appendChild(controlText);
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '15px';
+        controlUI.appendChild(controlText);
 
-      // Setup the click event listeners: simply set the map to Chicago.
-      controlUI.addEventListener('click', function() {
-        const coords = map.getCenter()
-        console.log(coords.lng());
-        const feedUrl = "/feed/" + `${coords.lat()}/${coords.lng()}`;
-        location.href = feedUrl;
-      });
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+            const coords = map.getCenter()
+            console.log(coords.lng());
+            const feedUrl = "/feed/" + `${coords.lat()}/${coords.lng()}`;
+            location.href = feedUrl;
+        });
     }
-
     function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 44.9812254, lng: -93.23134209999999 },
-        zoom: 12,
-        disableDefaultUI: true,
-        styles: [
-          {
-            "elementType": "labels.text.fill",
-            "stylers": [
-              {
-                "color": "#933933"
-              }
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 44.9812254, lng: -93.23134209999999 },
+            zoom: 12,
+            disableDefaultUI: true,
+            styles: [
+                {
+                    "featureType": "administrative",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#444444"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#f2f2f2"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.natural.landcover",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "hue": "#ff0000"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "color": "#46e590"
+                        },
+                        {
+                            "saturation": "-20"
+                        },
+                        {
+                            "lightness": "51"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        },
+                        {
+                            "hue": "#ff0000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "hue": "#00e6ff"
+                        },
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "saturation": -100
+                        },
+                        {
+                            "lightness": 45
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "saturation": "5"
+                        },
+                        {
+                            "color": "#bdbccf"
+                        },
+                        {
+                            "gamma": "1.09"
+                        },
+                        {
+                            "lightness": "0"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        },
+                        {
+                            "color": "#000000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "gamma": "0.55"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#469ce5"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                }
             ]
-          },
-          {
-            "elementType": "labels.text.stroke",
-            "stylers": [
-              {
-                "color": "#f2f2f2"
-              }
-            ]
-          },
-          {
-            "featureType": "water",
-            "elementType": "geometry.fill",
-            "stylers": [
-              {
-                "color": "#4f9de6"
-              }
-            ]
-          },
-        ]
-      });
+        });
 
-      // Create the DIV to hold the control and call the AddPage()
-      // constructor passing in this DIV.
-      var addPageControlDiv = document.createElement('div');
-      var addPageControl = new AddPage(addPageControlDiv, map);
+        // Create the DIV to hold the control and call the AddPage()
+        // constructor passing in this DIV.
+        var addPageControlDiv = document.createElement('div');
+        var addPageControl = new AddPage(addPageControlDiv, map);
 
         var viewFeedControlDiv = document.createElement('div');
         var viewFeedControl = new ViewFeed(addPageControlDiv, map);
@@ -170,161 +327,176 @@
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
 
 
-      infoWindow = new google.maps.InfoWindow;
+        infoWindow = new google.maps.InfoWindow;
 
-      // Try HTML5 geolocation.
-      updateMap()
+        // Try HTML5 geolocation.
+        updateMap()
     }
     function updateMap() {
         if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          currentLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
 
-          console.log(pos);
+                console.log(pos);
+                var locationIcon = {
+                    url: "static/mylocation.svg", // url
+                    scaledSize: new google.maps.Size(35, 35), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(15, 15), // anchor
 
-          var marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            title: 'Click to zoom',
-          });
+                };
 
-          map.setCenter(pos);
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    icon: locationIcon,
+                    title: 'Click to zoom',
+                    zIndex: 0,
+                });
 
-          google.maps.event.addListener(map, 'idle', function () {
-            const Http = new XMLHttpRequest();
-            const coords = map.getCenter()
-            console.log(coords.lng());
-            const url = window.location.href + `${coords.lat()}/${coords.lng()}`;
-            Http.open("GET", url);
-            Http.send();
-            Http.onreadystatechange = (e) => {
-              if (Http.readyState == 4 && Http.status == 200) {
-                console.log(Http.responseText);
-                var responseJson = JSON.parse(Http.responseText);
-                getMarkerLocations(pos, map, responseJson["posts"]);
-              }
-            }
-          });
+                map.setCenter(pos);
 
-        }, function () {
-          handleLocationError(true, infoWindow, map.getCenter());
-        });
-      } else {
+                google.maps.event.addListener(map, 'idle', function () {
+                    const Http = new XMLHttpRequest();
+                    const coords = map.getCenter()
+                    console.log(coords.lng());
+                    const url = window.location.href + `${coords.lat()}/${coords.lng()}`;
+                    Http.open("GET", url);
+                    Http.send();
+                    Http.onreadystatechange = (e) => {
+                        if (Http.readyState == 4 && Http.status == 200) {
+                            console.log(Http.responseText);
+                            var responseJson = JSON.parse(Http.responseText);
+                            getMarkerLocations(pos, map, responseJson["posts"]);
+                        }
+                    }
+                });
+                google.maps.event.addListener(map, 'zoom_changed', function() {
+                    marker.setIcon(locationIcon);
+                });
+
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
         }
     }
     function favoritePlace(placeID) {
-      const Http = new XMLHttpRequest();
-      const url = window.location.href + `favorited/${placeID}`;
-      Http.open("GET", url);
-      Http.send();
-      place = places[placeID];
-      place["FavoritesCount"] += 1;
-      newcontent = place["description"] + `<div><button class="mt-3 btn btn-block btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\"><<i class="fas fa-map-pin"></i> (${place['FavoritesCount']}) I've Been Here </button></div>`;
-      popups[placeID] = popup;
-      popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
-          '  border-radius: 1rem;\n' +
-          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
-          'height: 100%">\n' +
-          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ newcontent + '<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n' +
-          '      </div>';
-      updateMap();
+        const Http = new XMLHttpRequest();
+        const url = window.location.href + `favorited/${placeID}`;
+        Http.open("GET", url);
+        Http.send();
+        place = places[placeID];
+        place["FavoritesCount"] += 1;
+        newcontent = place["description"] + `<div><button class="mt-3 btn btn-block btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\"><<i class="fas fa-map-pin"></i> (${place['FavoritesCount']}) I've Been Here </button></div>`;
+        popups[placeID] = popup;
+        popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
+            '  border-radius: 1rem;\n' +
+            '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+            'height: 100%">\n' +
+            '        <div class="card-body" style="font-family: \'Helvetica\'">'+ newcontent + '<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n' +
+            '      </div>';
+        updateMap();
     }
 
     function getMarkerLocations(pos, map, places) {
-      // ARRAY OF MARKERS
-      for (var i = 0; i < places.length; i++) {
-        addPlace(places[i]);
-      }
+        // ARRAY OF MARKERS
+        for (var i = 0; i < places.length; i++) {
+            addPlace(places[i]);
+        }
 
-      function addPlace(place) {
-        var content = place["description"] + `<div><button class="mt-3 btn btn-block btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\"><i class="fas fa-map-pin"></i> (${place['FavoritesCount']}) I've Been Here </button></div>`;
-        this.places[place['_id']] = place;
-        // var image = '/js/markers/' + place.image + '.png';
-        var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
+        function addPlace(place) {
+            var content = place["description"] + `<div><button class="mt-3 btn btn-block btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\"><i class="fas fa-map-pin"></i> (${place['FavoritesCount']}) I've Been Here </button></div>`;
+            this.places[place['_id']] = place;
+            // var image = '/js/markers/' + place.image + '.png';
+            var latlng = new google.maps.LatLng(place["location"]["coordinates"][1], place["location"]["coordinates"][0]);
 
-        var postIcon = {
-          url: "static/post.svg", // url
-          scaledSize: new google.maps.Size(30, 30), // scaled size
-          origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(15, 15) // anchor
-        };
+            var postIcon = {
+                url: "static/post.svg", // url
+                scaledSize: new google.maps.Size(30, 30), // scaled size
+                origin: new google.maps.Point(0, 0), // origin
+            };
 
-        var marker = new google.maps.Marker({
-          position: latlng,
-          title: place.title,
-          icon: postIcon
+            var marker = new google.maps.Marker({
+                position: latlng,
+                title: place.title,
+                icon: postIcon,
 
-        });
-        popup = document.getElementById("popup");
+            });
+            popup = document.getElementById("popup");
 
-        popups[place['_id']] = popup
-        marker.setMap(map);
+            popups[place['_id']] = popup
+            marker.setMap(map);
+            marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 
-        placeID = place['_id']
-        google.maps.event.addListener(marker, 'click', function () {
-          const directions = getDirectionsURL(place)
-          popup.innerHTML =
-          '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
-          '  border-radius: 1rem;\n' +
-          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
-          'height: 100%">\n' +
-          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ content + `<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n` +
+            placeID = place['_id']
+            google.maps.event.addListener(marker, 'click', function () {
+                const directions = getDirectionsURL(place)
+                popup.innerHTML =
+                    '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
+                    '  border-radius: 1rem;\n' +
+                    '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+                    'height: 100%">\n' +
+                    '        <div class="card-body" style="font-family: \'Helvetica\'">'+ content + `<a href="${directions}" class="mt-3 btn btn-block btn-directions"><i class="fas fa-directions"></i> Directions</a></div>\n` +
 
-          '      </div>'
-            var pos = -35;
-            var id = setInterval(frame, .5);
-            function frame() {
-                if (pos == 5) {
-                    clearInterval(id);
-                } else {
-                    pos++;
-                    popup.style.bottom = pos + '%';
+                    '      </div>'
+                var pos = -35;
+                var id = setInterval(frame, .5);
+                function frame() {
+                    if (pos == 5) {
+                        clearInterval(id);
+                    } else {
+                        pos++;
+                        popup.style.bottom = pos + '%';
+                    }
                 }
-            }
 
-        });
+            });
 
-        google.maps.event.addListener(map, 'click', function () {
+            google.maps.event.addListener(map, 'click', function () {
 
-           var pos = 0;
-            var id = setInterval(frame, 1);
-            function frame() {
-                if (pos == -35) {
-                    clearInterval(id);
-                    popup.innerHTML = ''
-                } else {
-                    pos--;
-                    popup.style.bottom = pos + '%';
+                var pos = 0;
+                var id = setInterval(frame, 1);
+                function frame() {
+                    if (pos == -35) {
+                        clearInterval(id);
+                        popup.innerHTML = ''
+                    } else {
+                        pos--;
+                        popup.style.bottom = pos + '%';
+                    }
                 }
-            }
 
 
-        });
-      }
+            });
+            google.maps.event.addListener(map, 'zoom_changed', function() {
+                marker.setIcon(postIcon);
+            });
+        }
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-      infoWindow.setPosition(pos);
-      infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-      infoWindow.open(map);
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
     }
 
     function getDirectionsURL(place) {
-      url = 'https://google.com/maps/dir/' + `${currentLocation.lat},${currentLocation.lng}/${place["location"]["coordinates"][0]},${place["location"]["coordinates"][1]}`
-      return url
+        url = 'https://google.com/maps/dir/' + `${currentLocation.lat},${currentLocation.lng}/${place["location"]["coordinates"][0]},${place["location"]["coordinates"][1]}`
+        return url
     }
-  </script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
-    </script>
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
+</script>
 </body>
 
 </html>
