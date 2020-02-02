@@ -19,17 +19,17 @@
         }
     </style>
 
-  <title>One Page Wonder - Start Bootstrap Template</title>
+    <title>One Page Wonder - Start Bootstrap Template</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="/static/style.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -51,7 +51,6 @@
             const lng = centerMarker.position.lng();
             const Http = new XMLHttpRequest();
             const coords = map.getCenter()
-            // const url = window.location.href + "/submit";
             const url = 'https:' + window.location.href.substring(window.location.protocol.length) +  "/submit";
             Http.open("POST", url);
             console.log(url)
@@ -60,57 +59,242 @@
             Http.send(JSON.stringify(data));
         }
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 44.9812254, lng: -93.23134209999999 },
-                zoom: 15,
-                disableDefaultUI: true,
-                zoomControl: false,
-            });
-            infoWindow = new google.maps.InfoWindow;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 44.9812254, lng: -93.23134209999999 },
+            zoom: 15,
+            disableDefaultUI: true,
+            zoomControl: false,
+            styles: [
+                {
+                    "featureType": "administrative",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#444444"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#f2f2f2"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.natural.landcover",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "hue": "#ff0000"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "color": "#46e590"
+                        },
+                        {
+                            "saturation": "-20"
+                        },
+                        {
+                            "lightness": "51"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        },
+                        {
+                            "hue": "#ff0000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "hue": "#00e6ff"
+                        },
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "saturation": -100
+                        },
+                        {
+                            "lightness": 45
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "saturation": "5"
+                        },
+                        {
+                            "color": "#bdbccf"
+                        },
+                        {
+                            "gamma": "1.09"
+                        },
+                        {
+                            "lightness": "0"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        },
+                        {
+                            "color": "#000000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "gamma": "0.55"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#469ce5"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                }
+            ]
+        });
+        infoWindow = new google.maps.InfoWindow;
 
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
 
-                    centerMarker = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        title: 'Click to zoom',
-                    });
-
-                    map.setCenter(pos);
-
-                    google.maps.event.addListener(map, 'bounds_changed', function () {
-                        centerMarker.setPosition(map.getCenter());
-                    });
-
-                }, function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
+                centerMarker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    title: 'Click to zoom',
                 });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-        }
 
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-            infoWindow.open(map);
+                map.setCenter(pos);
+
+                google.maps.event.addListener(map, 'bounds_changed', function () {
+                    centerMarker.setPosition(map.getCenter());
+                });
+
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
         }
-    </script>
-       <script src="/static/vendor/jquery/jquery.min.js"></script>
-  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script async defer
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+</script>
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvKH7Gsu_DRPRqD0bYEIjEUOCYnh2jPuw&callback=initMap">
-        </script>
+</script>
 </body>
 
 </html>
