@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Add Post</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -50,8 +51,10 @@
             const lng = centerMarker.position.lng();
             const Http = new XMLHttpRequest();
             const coords = map.getCenter()
-            const url = window.location.href + "/submit";
+            // const url = window.location.href + "/submit";
+            const url = 'https:' + window.location.href.substring(window.location.protocol.length) +  "/submit";
             Http.open("POST", url);
+            console.log(url)
             Http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
             data = {"description":description, "lat":lat, "lng":lng};
             Http.send(JSON.stringify(data));

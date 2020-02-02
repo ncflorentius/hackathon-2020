@@ -1,0 +1,15 @@
+{
+  "short_name": "Stumbl",
+  "name": "Stumbl - Find Experiences",
+  "icons": [
+    {
+      "src": "touch-icon.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "density": 1.00
+    }
+  ],
+  "display": "fullscreen",
+  "orientation": "portrait"
+}
+
