@@ -5,10 +5,9 @@
   <title>Geolocation</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-    <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+  <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" href='/static/style.css' />
   <script src="https://kit.fontawesome.com/675a0d1294.js" crossorigin="anonymous"></script>
-
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
@@ -33,7 +32,6 @@
       display: none;
     }
   </style>
-
 </head>
 
 <body>
@@ -46,28 +44,24 @@
   bottom: -35%;
   left: 5%">
   </div>
-  <script>
-    // Note: This example requires that you consent to location sharing when
-    // prompted by your browser. If you see the error "The Geolocation service
-    // failed.", it means you probably did not give permission for the browser to
-    // locate you.
+  <footer class="fixed-bottom">
+    <img src="Hamburger Icon.svg" alt="Lists" class='icon tabbar-button tabbar-button-left'>
+   <div class="tabbar-center-circle">
+     <span class="helper"></span>
+     <img src="Add Icon.svg" alt="Add Post" class='icon'>
+   </div>
+   <img src="Map Icon.svg" alt="Maps" class='icon tabbar-button tabbar-button-right'>
+ </footer>
 
+  <script>
     var map, infoWindow;
     popups = {};
     places = {};
     currentLocation = {};
 
     function AddPage(controlDiv, map) {
-
       // Set CSS for the control border.
       var controlUI = document.createElement('div');
-      // controlUI.style.backgroundColor = '#fff';
-      // controlUI.style.border = '2px solid #fff';
-      // controlUI.style.borderRadius = '3px';
-      // controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-      // controlUI.style.cursor = 'pointer';
-      // controlUI.style.marginBottom = '22px';
-      // controlUI.style.textAlign = 'center';
       controlUI.style.cursor = 'pointer';
       controlUI.style.backgroundImage = "url(/static/plus.svg)";
       controlUI.style.height = '100px';
@@ -90,11 +84,9 @@
         location.href = "/create";
         // map.setCenter(chicago);
       });
-
     }
 
     function ViewFeed(controlDiv, map) {
-
       // Set CSS for the control border.
       var controlUI = document.createElement('div');
       controlUI.style.cursor = 'pointer';
@@ -115,7 +107,7 @@
       controlUI.appendChild(controlText);
 
       // Setup the click event listeners: simply set the map to Chicago.
-      controlUI.addEventListener('click', function() {
+      controlUI.addEventListener('click', function () {
         const coords = map.getCenter()
         console.log(coords.lng());
         const feedUrl = "/feed/" + `${coords.lat()}/${coords.lng()}`;
@@ -162,12 +154,12 @@
       var addPageControlDiv = document.createElement('div');
       var addPageControl = new AddPage(addPageControlDiv, map);
 
-        var viewFeedControlDiv = document.createElement('div');
-        var viewFeedControl = new ViewFeed(addPageControlDiv, map);
+      var viewFeedControlDiv = document.createElement('div');
+      var viewFeedControl = new ViewFeed(addPageControlDiv, map);
 
-        addPageControlDiv.index = 1;
-        viewFeedControlDiv.index = 2;
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
+      addPageControlDiv.index = 1;
+      viewFeedControlDiv.index = 2;
+      map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(addPageControlDiv);
 
 
       infoWindow = new google.maps.InfoWindow;
@@ -176,7 +168,7 @@
       updateMap()
     }
     function updateMap() {
-        if (navigator.geolocation) {
+      if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
           var pos = {
             lat: position.coords.latitude,
@@ -217,7 +209,7 @@
           handleLocationError(true, infoWindow, map.getCenter());
         });
       } else {
-        }
+      }
     }
     function favoritePlace(placeID) {
       const Http = new XMLHttpRequest();
@@ -229,11 +221,11 @@
       newcontent = place["description"] + `<div><button class="mt-3 btn btn-block btn-secondary" onclick=\"favoritePlace(\'${place['_id']}\')\"><<i class="fas fa-map-pin"></i> (${place['FavoritesCount']}) I've Been Here </button></div>`;
       popups[placeID] = popup;
       popups[placeID].innerHTML = '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
-          '  border-radius: 1rem;\n' +
-          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
-          'height: 100%">\n' +
-          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ newcontent + '<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n' +
-          '      </div>';
+        '  border-radius: 1rem;\n' +
+        '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+        'height: 100%">\n' +
+        '        <div class="card-body" style="font-family: \'Helvetica\'">' + newcontent + '<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n' +
+        '      </div>';
       updateMap();
     }
 
@@ -271,41 +263,38 @@
         google.maps.event.addListener(marker, 'click', function () {
           const directions = getDirectionsURL(place)
           popup.innerHTML =
-          '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
-          '  border-radius: 1rem;\n' +
-          '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
-          'height: 100%">\n' +
-          '        <div class="card-body" style="font-family: \'Helvetica\'">'+ content + `<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n` +
+            '<div  id=\'popupInner\' class="card" style="border: 0;\n' +
+            '  border-radius: 1rem;\n' +
+            '  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); background: white;\n' +
+            'height: 100%">\n' +
+            '        <div class="card-body" style="font-family: \'Helvetica\'">' + content + `<a href="${directions}" class="mt-3 btn btn-block btn-success"><i class="fas fa-directions"></i> Directions</a></div>\n` +
 
-          '      </div>'
-            var pos = -35;
-            var id = setInterval(frame, .5);
-            function frame() {
-                if (pos == 5) {
-                    clearInterval(id);
-                } else {
-                    pos++;
-                    popup.style.bottom = pos + '%';
-                }
+            '      </div>'
+          var pos = -35;
+          var id = setInterval(frame, .5);
+          function frame() {
+            if (pos == 5) {
+              clearInterval(id);
+            } else {
+              pos++;
+              popup.style.bottom = pos + '%';
             }
-
+          }
         });
 
         google.maps.event.addListener(map, 'click', function () {
 
-           var pos = 0;
-            var id = setInterval(frame, 1);
-            function frame() {
-                if (pos == -35) {
-                    clearInterval(id);
-                    popup.innerHTML = ''
-                } else {
-                    pos--;
-                    popup.style.bottom = pos + '%';
-                }
+          var pos = 0;
+          var id = setInterval(frame, 1);
+          function frame() {
+            if (pos == -35) {
+              clearInterval(id);
+              popup.innerHTML = ''
+            } else {
+              pos--;
+              popup.style.bottom = pos + '%';
             }
-
-
+          }
         });
       }
     }

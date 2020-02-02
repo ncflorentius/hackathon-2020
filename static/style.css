@@ -185,3 +185,49 @@ header.masthead .bg-circle-4 {
 .favBut {
 
 }
+
+footer {
+  background-color: #FBF5F3;
+  height: 180px;
+}
+
+.tabbar-button {
+  position: fixed;
+  height: 80px;
+  width: 80px;
+  bottom: 50px;
+  margin: auto;
+}
+
+.tabbar-button-left {
+  left: 15%;
+}
+
+.tabbar-button-right {
+  right: 15%
+}
+
+.tabbar-button-center {
+  bottom: 100px;
+}
+
+.tabbar-center-circle {
+  position: relative;
+  bottom: 100px;
+  margin: auto;
+  height: 200px;
+  width: 200px;
+  background-color: #e2dddb;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.helper {
+ display: inline-block;
+ height: 100%;
+ vertical-align: middle;
+}
+
+.icon {
+  vertical-align: middle;
+}
