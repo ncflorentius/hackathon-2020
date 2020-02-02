@@ -1,11 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
+from flask_debug import Debug
 import database
 import json
 application = api = Flask(__name__)
-
-if __name__ == "__main__":
-    application.debug = True
-    application.run()
 
 @application.route('/')
 def show_map():
@@ -29,6 +26,9 @@ def publish_post():
         lng = data.pop("lng")
         database.addPost(data, lat, lng)
         print("created new entry in database")
+        resp = jsonify(success=True)
+        resp.status_code = 200
+        return resp
 
 @application.route('/favorited/<postID>')
 def favorite_post(postID):
@@ -45,3 +45,8 @@ def show_feed(latitude, longitude):
         post["location"]["coordinates"][0] = "%.2f" % post["location"]["coordinates"][0]
         post["location"]["coordinates"][1] = "%.2f" % post["location"]["coordinates"][1]
     return render_template('feed.html', posts=posts["posts"])
+
+if __name__ == "__main__":
+    application.debug = True
+    Debug(application)
+    application.run(ssl_context='adhoc')

@@ -9,3 +9,5 @@ MarkupSafe
 Werkzeug
 awscli
 awsebcli
+pyopenssl
+flask_debug

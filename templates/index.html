@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
-  <title>Geolocation</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Stumbl</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-  <link rel="stylesheet" href='/static/style.css' />
-  <script src="https://kit.fontawesome.com/675a0d1294.js" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <style>
-    /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-    #map {
-      height: 100%;
-    }
+    <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href='/static/style.css' />
+    <script src="https://kit.fontawesome.com/675a0d1294.js" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+        #map {
+            height: 100%;
+        }
 
         /* Optional: Makes the sample page fill the window. */
         html,
